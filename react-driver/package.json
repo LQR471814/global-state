@@ -1,0 +1,28 @@
+{
+  "name": "@global-state/react-driver",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "tsc"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "keywords": ["flux", "global state", "react", "simple"],
+  "author": "LQR471814",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LQR471814/global-state"
+  },
+  "dependencies": {
+    "@global-state/core": "link:../core",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.26",
+    "typescript": "^4.9.4"
+  }
+}

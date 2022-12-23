@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "ES6",
+        "target": "ESNext",
+        "strict": true,
+        "moduleResolution": "Node",
+        "declaration": true,
+        "lib": ["DOM", "ESNext"],
+        "outDir": "./lib"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
