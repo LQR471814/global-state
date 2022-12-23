@@ -1,7 +1,7 @@
 {
   "name": "@global-state/core",
   "version": "0.1.0",
-  "description": "",
+  "description": "the core, framework-agnostic implementation of the global store.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
@@ -15,7 +15,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LQR471814/global-state"
+    "url": "git+https://github.com/LQR471814/global-state"
   },
   "dependencies": {
     "immer": "^9.0.16"

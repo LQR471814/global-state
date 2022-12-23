@@ -1,7 +1,7 @@
 {
   "name": "@global-state/react-driver",
   "version": "0.1.0",
-  "description": "",
+  "description": "the react driver for the global store",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
