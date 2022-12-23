@@ -18,7 +18,7 @@
     "url": "https://github.com/LQR471814/global-state"
   },
   "dependencies": {
-    "@global-state/core": "link:../core",
+    "@global-state/core": "^0.1.0",
     "react": "^18.2.0"
   },
   "devDependencies": {
