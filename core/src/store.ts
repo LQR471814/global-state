@@ -1,8 +1,8 @@
 // * shamelessly copied from "svelte/types/runtime/store/index" to make this project framework agnostic
 
-type Subscriber<T> = (value: T) => void
-type Unsubscriber = () => void
-type Updater<T> = (value: T) => T
+export type Subscriber<T> = (value: T) => void
+export type Unsubscriber = () => void
+export type Updater<T> = (value: T) => T
 
 /** Readable interface for subscribing. */
 export interface Readable<T> {
