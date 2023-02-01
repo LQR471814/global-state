@@ -6,7 +6,7 @@
 
 ```typescript
 //state.ts
-import { store } from "./index"
+import { store } from "../src/index"
 
 type Post = {
     author: string
@@ -27,7 +27,7 @@ const initial: State = {
 
 export const state = store(initial, {
     authenticate: (state) => {
-        //direct mutations are made immutable with immer
+        // direct mutations are made immutable with immer
         state.authenticated = true
     },
     newPost: (state, post: Post) => {
@@ -39,12 +39,10 @@ export const state = store(initial, {
 ### mutating state
 
 ```typescript
-//somewhere in your UI
+//app.ts
 import { state } from "./state"
 
 // ...
-
-state.actions.authenticate()
 
 state.actions.newPost({
     author: "author's name",
@@ -52,16 +50,19 @@ state.actions.newPost({
 })
 ```
 
-### subscribing to state
+### subscribing to and devolving state
 
 ```typescript
-//somewhere in your UI
-import { state } from "./state"
+//app.ts
+const unsubscribe = state.subscribe(s => {
+    console.log(s)
+})
 
-const authenticated = state.select(s => s.authenticated)
-const unsubscribe = authenticated.subscribe(isAuthenticated => {
+const authenticated = state.select(s => s.authenticated, {})
+authenticated.subscribe(isAuthenticated => {
     console.log(isAuthenticated)
 })
+state.actions.authenticate()
 unsubscribe()
 ```
 

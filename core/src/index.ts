@@ -8,16 +8,16 @@ type WithoutFirst<T> = T extends (arg0: any, ...rest: infer R) => any ? R : neve
 export type Updater<S> = (s: S, ...parameters: any) => void
 export type Updaters<S> = {
     [key: string]: Updater<S>
-} | undefined
+}
 export type Store<S, R extends Updaters<S>> = {
     select: <T, TR extends Updaters<T>>(
         selector: (s: S) => T, reducers: TR
     ) => Store<T, TR>,
-    actions: R extends object ? {
+    actions: {
         [key in keyof R]: (
             ...parameters: WithoutFirst<R[key]>
         ) => ReturnType<R[key]>
-    } : never,
+    },
     subscribe: (subscriber: Subscriber<S>) => Unsubscriber,
 }
 
@@ -27,10 +27,6 @@ export function store<S, R extends Updaters<S>>(
     const state = writable(initialState)
     let currentState: S
     state.subscribe(value => currentState = value)
-
-    const select: Store<S, R>["select"] = <T, TR extends Updaters<T>>(
-        selector: (s: S) => T, reducers: TR
-    ): Store<T, TR> => store<T, TR>(selector(currentState), reducers)
 
     const actions: any = {}
     for (const k in reducers) {
@@ -44,6 +40,7 @@ export function store<S, R extends Updaters<S>>(
 
     return {
         subscribe: state.subscribe,
-        select, actions
+        select: (selector, reducers) => store(selector(currentState), reducers),
+        actions
     }
 }

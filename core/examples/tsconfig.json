@@ -9,10 +9,9 @@
             "DOM",
             "ESNext"
         ],
-        "outDir": "./lib"
     },
     "include": [
-        "src/**/*",
+        "*.ts",
     ],
     "exclude": [
         "node_modules"
