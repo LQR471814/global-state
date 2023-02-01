@@ -1,4 +1,4 @@
-import { Readable, Subscriber, Unsubscriber, Writable, writable } from "./store"
+import { Readable, Subscriber, Unsubscriber, Writable, get, writable } from "./store"
 
 import { produce } from "immer"
 
@@ -22,9 +22,17 @@ export type Store<S, R extends Updaters<S>> = {
 }
 
 export function store<S, R extends Updaters<S>>(
-    initialState: S, reducers: R,
+    initialState: S | Store<S, R>, reducers: R,
 ): Store<S, R> {
-    const state = writable(initialState)
+    const state = writable<S>(null as S)
+
+    if (
+        typeof initialState === "object" &&
+        initialState && "subscribe" in initialState
+    ) {
+        state.set(get(initialState))
+    }
+
     let currentState: S
     state.subscribe(value => currentState = value)
 

@@ -41,3 +41,12 @@ export function writable<T>(initial: T): Writable<T> {
         },
     }
 }
+
+export function get<T>(readable: Readable<T>): T {
+    let result: T
+    const unsubscribe = readable.subscribe(value => {
+        result = value
+    })
+    unsubscribe()
+    return result!
+}
