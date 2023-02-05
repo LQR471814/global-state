@@ -1,0 +1,17 @@
+{
+    "name": "example",
+    "description": "an example on how to use the library",
+    "authors": "LQR471814",
+    "version": "1.0.0",
+    "main": "./lib/index.js",
+    "type": "module",
+    "scripts": {
+        "test": "tsc && node lib/index.js"
+    },
+    "devDependencies": {
+        "typescript": "^4.9.5"
+    },
+    "dependencies": {
+        "@global-state/core": "link:../core"
+    }
+}

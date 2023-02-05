@@ -1,4 +1,6 @@
-// * shamelessly copied from "svelte/types/runtime/store/index" to make this project framework agnostic
+// * a blatant ripoff of svelte stores
+// * a custom implementation of writable() is added here
+// * for the library to remain framework agnostic
 
 export type Subscriber<T> = (value: T) => void
 export type Unsubscriber = () => void
@@ -24,10 +26,6 @@ export function writable<T>(initial: T): Writable<T> {
         }
     }
     return {
-        set(newValue) {
-            value = newValue
-            update()
-        },
         subscribe(subscriber) {
             subscribers.add(subscriber)
             subscriber(value)
@@ -35,8 +33,19 @@ export function writable<T>(initial: T): Writable<T> {
                 subscribers.delete(subscriber)
             }
         },
+        set(newValue) {
+            if (newValue === value) {
+                return
+            }
+            value = newValue
+            update()
+        },
         update(updater) {
-            value = updater(value)
+            const newValue = updater(value)
+            if (newValue === value) {
+                return
+            }
+            value = newValue
             update()
         },
     }

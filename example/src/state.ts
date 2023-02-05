@@ -1,4 +1,4 @@
-import { store } from "../src/index"
+import { store } from "@global-state/core"
 
 type Post = {
     author: string

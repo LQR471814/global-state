@@ -1,5 +1,5 @@
 //somewhere in your UI
-import { state } from "./state"
+import { state } from "./state.js"
 
 // ...
 
@@ -9,11 +9,17 @@ const unsubscribe = state.subscribe(s => {
 })
 
 // * devolving state
-const authenticated = state.select(s => s.authenticated, {
-    authenticate: () => true,
-})
+const authenticated = state.select(
+    s => s.authenticated,
+    (s, v) => {
+        s.authenticated = v
+    },
+    {
+        authenticate: () => true
+    },
+)
 authenticated.subscribe(isAuthenticated => {
-    console.log(isAuthenticated)
+    console.log("[authenticated]", isAuthenticated)
 })
 
 // * mutating state

@@ -4,12 +4,8 @@
         "target": "ESNext",
         "strict": true,
         "moduleResolution": "Node16",
-        "declaration": true,
-        "lib": [
-            "DOM",
-            "ESNext"
-        ],
-        "outDir": "./lib"
+        "lib": ["ESNext"],
+        "types": ["vitest/globals"]
     },
     "include": [
         "src/**/*",
