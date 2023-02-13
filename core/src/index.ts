@@ -1,8 +1,5 @@
 import { Readable, Subscriber, Unsubscriber, Writable, get, writable } from "./store.js"
-
-import { produce } from "immer"
-
-export { Subscriber, Unsubscriber, Readable, Writable, writable, get }
+export { Readable, Subscriber, Unsubscriber, Writable, get, writable }
 
 type WithoutFirst<T> = T extends (arg0: any, ...rest: infer R) => any ? R : never
 export type Updater<S> = (s: S, ...parameters: any) => void
@@ -34,6 +31,7 @@ type StoreReturns<S, Args extends StoreArgs<S>> = Store<
     S, Args[0] extends Updaters<S> ? Args[0] : undefined,
     Args[0] extends true ? true : false
 >
+
 export function store<S, Args extends StoreArgs<S>>(
     initialState: S, ...args: Args
 ): StoreReturns<S, Args> {
@@ -55,11 +53,7 @@ export function store<S, Args extends StoreArgs<S>>(
 
         if (reflect !== undefined) {
             derived.subscribe(value => {
-                state.set(produce(
-                    currentState,
-                    // potentially confusing syntax, this returns s
-                    (s: S) => (reflect(s, value), s)
-                ))
+                state.update((s) => (reflect(s, value), s))
             })
         }
         state.subscribe(s => derived.update(_ => selector(s)))
@@ -83,10 +77,7 @@ export function store<S, Args extends StoreArgs<S>>(
         select: select,
         ...(typeof arg === "object" || !arg ? {
             update: (updater: (s: S) => S | void) => {
-                state.set(produce(
-                    currentState,
-                    updater,
-                ))
+                state.update(updater)
             },
         } : {}),
         ...(typeof arg === "object" ? {
@@ -94,10 +85,7 @@ export function store<S, Args extends StoreArgs<S>>(
                 const actions: any = {}
                 for (const k in arg) {
                     actions[k] = (...args: any) => {
-                        state.set(produce(
-                            currentState,
-                            (s: S) => arg[k](s, ...args)
-                        ))
+                        state.update((s) => arg[k](s, ...args))
                     }
                 }
                 return actions

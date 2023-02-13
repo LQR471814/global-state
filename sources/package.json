@@ -1,7 +1,7 @@
 {
-  "name": "@global-state/core",
-  "version": "1.1.0",
-  "description": "the core, framework-agnostic implementation of the global store.",
+  "name": "@global-state/sources",
+  "version": "0.1.0",
+  "description": "stores that represent external interfaces.",
   "main": "lib/index.js",
   "type": "module",
   "scripts": {
@@ -11,12 +11,7 @@
   "files": [
     "lib/**/*"
   ],
-  "keywords": [
-    "flux",
-    "global state",
-    "svelte",
-    "simple"
-  ],
+  "keywords": ["flux", "global state", "simple"],
   "author": "LQR471814",
   "license": "ISC",
   "repository": {
@@ -24,7 +19,7 @@
     "url": "git+https://github.com/LQR471814/global-state"
   },
   "dependencies": {
-    "immer": "^9.0.19"
+    "@global-state/core": "^1.1.0"
   },
   "devDependencies": {
     "typescript": "^4.9.4"

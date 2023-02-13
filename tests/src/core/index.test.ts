@@ -1,6 +1,4 @@
-import { Store, store } from "@global-state/core/src/index.js"
-
-import { Updaters } from "@global-state/core"
+import { Store, store, Updaters } from "@global-state/core/src/index.js"
 import { get } from "@global-state/core/src/store.js"
 
 type TestOptions<S, T> = {
