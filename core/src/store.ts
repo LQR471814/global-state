@@ -11,7 +11,6 @@ export interface Readable<T> {
 
 /** Writable interface for both updating and subscribing. */
 export interface Writable<T> extends Readable<T> {
-    set(value: T): void;
     update(updater: Updater<T>): void;
 }
 
@@ -30,13 +29,6 @@ export function writable<T>(initial: T): Writable<T> {
             return () => {
                 subscribers.delete(subscriber)
             }
-        },
-        set(newValue) {
-            if (newValue === value) {
-                return
-            }
-            value = newValue
-            update()
         },
         update(updater) {
             const newValue = produce(value, updater)
@@ -80,7 +72,7 @@ export function sync<T>(
             }
             if (incomingPriority >= sourcePriority) {
                 subscriptions.push(incoming.subscribe(value => {
-                    source.set(value)
+                    source.update(() => value)
                 }))
             }
         })

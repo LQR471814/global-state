@@ -209,7 +209,6 @@ store.actions.setAuthenticated(true)
 
 > Writable is a Readable that exports methods to change it's value.
 
-- `set(value)` sets the value of the writable.
 - `update((currentValue) => value)` sets the value of the writable with the value returned by the callback, it abides by "immutable updates" rules.
 
 #### `writable(initialValue): value`
@@ -225,11 +224,9 @@ state.subscribe(value => {
   console.log(value)
 })
 
-state.set(2)
 state.update(v => v + 1)
 // 0
-// 2
-// 3
+// 1
 ```
 
 #### `get(writable): value`

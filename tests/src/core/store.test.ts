@@ -26,12 +26,6 @@ describe("writable store", () => {
             expect(typeof currentState).not.toEqual("undefined")
         })
 
-        it("should change value using set()", () => {
-            lastState = currentState
-            store.set(update(currentState!))
-            expect(currentState).not.toEqual(lastState)
-        })
-
         it("should change value using update()", () => {
             lastState = currentState
             store.update(update)
@@ -47,13 +41,13 @@ describe("writable store", () => {
         it("should unsubscribe and not change value", () => {
             lastState = currentState
             unsubscribe()
-            store.set(update(currentState!))
+            store.update(update)
             expect(lastState).toEqual(currentState)
         })
 
         it("should not update when assigned the same value", () => {
             const mutationsBefore = mutations
-            store.set(currentState!)
+            store.update(() => currentState!)
             expect(mutationsBefore).toEqual(mutations)
         })
     }
@@ -87,7 +81,7 @@ describe("writable store", () => {
 test("get function", () => {
     const primitive = writable(17)
     expect(get(primitive)).toEqual(17)
-    primitive.set(57)
+    primitive.update(() => 57)
     expect(get(primitive)).toEqual(57)
     expect(get(primitive)).toEqual(57)
 })
@@ -109,14 +103,14 @@ test("sync writables one way", () => {
 
     expect(counter.mutations).toEqual(1)
 
-    state.set(10)
+    state.update(() => 10)
     expect(counter.mutations).toEqual(2)
 
     state.update(() => 15)
     expect(counter.mutations).toEqual(3)
 
     unsubscribe()
-    state.set(20)
+    state.update(() => 20)
     expect(counter.mutations).toEqual(3)
 })
 
@@ -134,13 +128,13 @@ test("sync writables two ways", () => {
 
     expect(get(s1)).toEqual(get(s2))
 
-    s1.set(4)
+    s1.update(() => 4)
     expect(get(s1)).toEqual(get(s2))
 
     s1.update(() => 5)
     expect(get(s1)).toEqual(get(s2))
 
-    s2.set(2)
+    s2.update(() => 2)
     expect(get(s1)).toEqual(get(s2))
 
     s2.update(() => 7)
@@ -153,6 +147,6 @@ test("sync writables two ways", () => {
     // initial value of s1
     expect(s1Mutations).toEqual(s2Mutations+1)
 
-    s1.set(6)
+    s1.update(() => 6)
     expect(get(s1)).not.toEqual(get(s2))
 })
