@@ -1,6 +1,6 @@
 {
   "name": "@global-state/sources",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "stores that represent external interfaces.",
   "main": "lib/index.js",
   "type": "module",

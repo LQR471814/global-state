@@ -17,14 +17,14 @@ export function persistent<T>(key: string, initial: T): Writable<T> {
         }
     }
 
-    value.subscribe(s => {
-        localStorage.setItem(key, JSON.stringify(s))
-    })
-
     const loaded = localStorage.getItem(key)
     if (loaded !== null) {
         read(loaded)
     }
+
+    value.subscribe(s => {
+        localStorage.setItem(key, JSON.stringify(s))
+    })
 
     const listener = (e: StorageEvent) => {
         if (e.key !== key || e.newValue === null) {
