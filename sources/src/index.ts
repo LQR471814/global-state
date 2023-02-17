@@ -6,14 +6,14 @@ export function persistent<T>(key: string, initial: T): Writable<T> {
     const read = (encoded: string) => {
         try {
             const parsed = JSON.parse(encoded)
-            value.set(parsed)
+            value.update(() => parsed)
         } catch (err) {
             console.warn(
                 `could not parse the value corresponding to "${key}"\n`,
                 `it had a value of ${encoded}\n`,
                 `the error was ${err}`,
             )
-            value.set(initial)
+            value.update(() => initial)
         }
     }
 
