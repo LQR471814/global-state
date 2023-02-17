@@ -15,6 +15,8 @@ export type DevolvedStore<S, T, A extends MutableArgOpt<S, T> | []> =
         detach: () => void
     }
 
+export type StoreType<T> = T extends Store<infer S> ? S : never
+
 export type Store<S, R extends Updaters<S> | undefined = undefined, Readonly extends boolean = false> = {
     select: <T, A extends MutableArgOpt<S, T> | []>(
         selector: (s: S) => T, ...args: A
