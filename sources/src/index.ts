@@ -3,24 +3,34 @@ import { Writable, writable } from "@global-state/core"
 export function persistent<T>(key: string, initial: T): Writable<T> {
     const value = writable(initial)
 
-    value.subscribe(s => {
-        localStorage.setItem(key, JSON.stringify(s))
-    })
-    const listener = (e: StorageEvent) => {
-        if (e.key !== key || e.newValue === null) {
-            return
-        }
+    const read = (encoded: string) => {
         try {
-            const parsed = JSON.parse(e.newValue)
+            const parsed = JSON.parse(encoded)
             value.set(parsed)
         } catch (err) {
             console.warn(
                 `could not parse the value corresponding to "${key}"\n`,
-                `it had a value of ${e.newValue}\n`,
+                `it had a value of ${encoded}\n`,
                 `the error was ${err}`,
             )
             value.set(initial)
         }
+    }
+
+    value.subscribe(s => {
+        localStorage.setItem(key, JSON.stringify(s))
+    })
+
+    const loaded = localStorage.getItem(key)
+    if (loaded !== null) {
+        read(loaded)
+    }
+
+    const listener = (e: StorageEvent) => {
+        if (e.key !== key || e.newValue === null) {
+            return
+        }
+        read(e.newValue)
     }
     window.addEventListener("storage", listener)
 
